@@ -17,8 +17,8 @@ def serve(port):
             message, address = server_socket.recvfrom(1024)
             message = message.decode()
             message = message.split()[1]
-            timeDiff = time.time() - float(message)
-            print("receive RTT:", timeDiff)
+            time_diff = time.time() - float(message)
+            print("receive RTT:", time_diff)
         except KeyboardInterrupt:
             server_socket.close()
             sys.exit()

@@ -174,8 +174,8 @@ Process finished with exit code 0
                message, address = server_socket.recvfrom(1024)
                message = message.decode()
                message = message.split()[1]
-               timeDiff = time.time() - float(message)
-               print("receive RTT:", timeDiff)
+               time_diff = time.time() - float(message)
+               print("receive RTT:", time_diff)
            except KeyboardInterrupt:
                server_socket.close()
                sys.exit()
@@ -199,20 +199,23 @@ Process finished with exit code 0
    
    
    def ping(host, port):
-       serverName = '127.0.0.1'
-       serverPort = 12000
+       serverName = host
+       serverPort = port
        clientSocket = socket(AF_INET, SOCK_DGRAM)
        while True:
            time1 = time.time()
-           outputdata = 'Heartbeat ' + str(time1)
-           clientSocket.sendto(outputdata.encode(), (serverName, serverPort))
+           outputs = 'Heartbeat ' + str(time1)
+           clientSocket.sendto(outputs.encode(), (serverName, serverPort))
            time.sleep(10)
    
    
    if __name__ == '__main__':
-       resps = ping('127.0.0.1', 12000)
-       print(resps)
+       ping('127.0.0.1', 12000)
    
    ```
 
    
+
+   As we run the heart beat server and client, we would see the server is keeping heart beating, with printing RTTs:
+
+![image-20220322201128930](/Users/gilbert/Library/Application%20Support/typora-user-images/image-20220322201128930.png)
