@@ -31,7 +31,7 @@ def ping(host, port):
             # decode current response
             cur_res = modified_message.decode()
             # print(cur_res + " RTT: " + str(time_diff))
-            resps.append((seq, cur_res, time_diff))
+            resps.append((seq, cur_res, float(time_diff)))
         except:
             # print("lost " + str(seq))
             resps.append((seq, 'Request timed out', 0))
