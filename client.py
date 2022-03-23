@@ -19,17 +19,21 @@ def ping(host, port):
         # print("seq: ", seq)
         time1 = time.time()
         outputs = 'Ping ' + str(seq) + " " + str(time1)
-        # 设置超时 单位秒
+        # set time out
         client_socket.settimeout(1)
+        # client send to server with output ping
         client_socket.sendto(outputs.encode(), (server_name, server_port))
         try:
+            # receive response from server
             modified_message, server_address = client_socket.recvfrom(2048)
+            # calculate timeout
             time_diff = time.time() - time1
+            # decode current response
             cur_res = modified_message.decode()
             # print(cur_res + " RTT: " + str(time_diff))
-            resps.append((seq, cur_res, str(time_diff)))
+            resps.append((seq, cur_res, time_diff))
         except:
-            print("lost " + str(seq))
+            # print("lost " + str(seq))
             resps.append((seq, 'Request timed out', 0))
         # Fill in end
     return resps
