@@ -146,6 +146,29 @@ Process finished with exit code 0
    
    ```
 
+   As we run the client, we see the calculations:
+
+   
+
+   ![image-20220322201620073](/Users/gilbert/Library/Application%20Support/typora-user-images/image-20220322201620073.png)
+
+   ```bash
+   /usr/local/bin/python3.9 /Users/gilbert/Documents/WebLabs/ClientStandard.py
+   from 127.0.0.1 response：bytes= 24 RTTs: 0.00033402442932128906
+   from 127.0.0.1 response：bytes= 24 RTTs: 0.0002779960632324219
+   from 127.0.0.1 response：bytes= 24 RTTs: 0.00034999847412109375
+   from 127.0.0.1 response：bytes= 24 RTTs: 0.00019502639770507812
+   from 127.0.0.1 response：bytes= 25 RTTs: 0.0002970695495605469
+   from 127.0.0.1 response：bytes= 24 RTTs: 0.00017213821411132812
+   from 127.0.0.1 response：bytes= 25 RTTs: 0.00013899803161621094
+   127.0.0.1 Ping lost rate calculation:
+   	package: sent = 10, receive = 7 lost = 3 ( 30 % lost rate)
+   Recorded RTTs:
+   	minimum RTTs = 0.00013899803161621094 maximum RTTs = 0.00034999847412109375 average RTTs = 0.0002521787370954241
+   
+   Process finished with exit code 0
+   ```
+
    
 
 2. The Heartbeat can be used to check if an application is up and running and to report one-way packet loss. The client sends a sequence number and current timestamp in the UDP packet to the server, which is listening for the Heartbeat (i.e., the UDP packets) of the client. Upon receiving the packets, the server calculates the time difference and reports any lost packets. If the Heartbeat packets are missing for some specified period of time, we can assume that the client application has stopped.
