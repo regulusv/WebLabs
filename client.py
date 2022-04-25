@@ -41,9 +41,18 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         recPacket, addr = mySocket.recvfrom(1024)
         # Fill in start
         # Fetch the ICMP header from the IP packet
+        icmpHeader = recPacket[20:28]
+        icmpType, code, mychecksum, packetID, sequence = struct.unpack("bbHHh", icmpHeader)
+
+        if type != 8 and packetID == ID:
+            bytesInDouble = struct.calcsize("d")
+            timeSent = struct.unpack("d", recPacket[28:28 + bytesInDouble])[0]
+            return timeReceived - timeSent
+
         # Fill in end
         timeLeft = timeLeft - howLongInSelect
         if timeLeft <= 0:
+            print("request timed out")
             return (None, None)
 
 
@@ -93,9 +102,16 @@ def ping(host, timeout=1):
     for i in range(0, 5):
         result = doOnePing(dest, timeout)
         resps.append(result)
+        # print(result)
         time.sleep(1)  # one second
     return resps
 
 
 if __name__ == '__main__':
-    ping("google.co.il")
+    # Precisely, the type of the list should
+    # be [(float, (integer, integer, integer, integer, integer, double))]. The first element of the tuple
+    # should be a float, and should be the delay of the ping in milliseconds. The second element of the
+    # tuple should be a 6-tuple, in which each element corresponds to an ICMP field from the pong
+    # packet (response) from the server. In order, they should be (type, code, checksum, ID, sequence
+    # number, data).
+    ping("127.0.0.1")
